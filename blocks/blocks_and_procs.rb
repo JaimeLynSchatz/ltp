@@ -1,5 +1,6 @@
 # Blocks and Procs - also sometimes called closures
 
+# Procs can do things
 toast = Proc.new do
   puts 'Cheers!'
 end
@@ -8,6 +9,7 @@ toast.call
 toast.call
 toast.call
 
+# Procs can accept variables as parameters
 doYouLike = Proc.new do |aGoodThing|
   puts 'I *really* like '+aGoodThing+'!'
 end
@@ -15,6 +17,7 @@ end
 doYouLike.call 'chocolate'
 doYouLike.call 'ruby'
 
+# Procs can accept another proc as a parameter
 def doSelfImportantly someProc
   puts 'Everybody just HOLD ON! I have something to do...'
   someProc.call
@@ -86,6 +89,73 @@ end
 puts doUntilFalse([5], buildArrayOfSquares).inspect
 puts doUntilFalse('I\'m writing this at 3:00 am; someone knock me out!', alwaysFalse)
 
+# Procs can compose and return new procs
+def compose proc1, proc2
+  Proc.new do |x|
+    proc2.call(proc1.call(x))
+  end
+end
 
+squareIt = Proc.new do |x|
+  x * x
+end
 
+doubleIt = Proc.new do |x|
+  x + x
+end
 
+doubleThenSquare = compose doubleIt, squareIt
+squareThenDouble = compose squareIt, doubleIt
+
+puts doubleThenSquare.call(5)
+puts squareThenDouble.call(5)
+
+class Array
+  def eachEven(&wasABlock_nowAProc)
+    isEven = true
+
+    self.each do |object|
+      if isEven
+        wasABlock_nowAProc.call object
+      end
+
+      isEven = (not isEven)
+    end
+  end
+end
+
+['apple', 'bad apple', 'cherry', 'durian'].eachEven do |fruit|
+  puts 'Yum! I just love '+fruit+' pies, don\'t you?'
+end
+
+[1, 2, 3, 4, 5].eachEven do |oddBall|
+  puts oddBall.to_s+' is NOT an even number!'
+end
+
+def profile descriptionOfBlock, &block 
+  startTime = Time.now
+
+  block.call
+
+  duration = Time.now - startTime
+
+  puts descriptionOfBlock+': '+duration.to_s+' seconds'
+end
+
+profile '25000 doublings' do
+  number = 1
+
+  25000.times.do
+    number = number + number
+  end
+
+  puts number.to_s.length.to_s+' digits'
+end
+
+profile 'count to a million' do
+  number = 0
+
+  1000000.times do
+    number = number + 1
+  end
+end
