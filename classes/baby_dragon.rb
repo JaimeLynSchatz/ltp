@@ -102,13 +102,51 @@ class Dragon
 
 end
 
-pet = Dragon.new 'Norbert'
-pet.feed
-pet.toss
-pet.walk
-pet.putToBed
-pet.rock
-pet.putToBed
-pet.putToBed
-pet.putToBed
-pet.putToBed
+def prompt msg
+  puts "=> #{msg}"
+end
+
+prompt 'Would you like a new pet dragon? (y or n)'
+new_dragon = gets.chomp.downcase
+while new_dragon.start_with?('y')
+  prompt 'What\'s your dragon\'s name?'
+  dragon_name = gets.chomp
+  dragon = Dragon.new dragon_name
+
+  loop do
+    prompt "#{dragon_name} might like a little fresh air. To walk your dragon, type walk."
+    choice = gets.chomp.downcase
+    if choice == 'walk'
+      dragon.walk
+      prompt 'That was a nice walk. What now?'
+    else
+      prompt 'I didn\'t catch that. Here\'s what you can do with your dragon:'
+      prompt 'feed  |  walk  |  rock  |  toss  |  put to bed'
+    end
+
+    choice = gets.chomp.downcase
+    case choice
+    when 'feed'
+      dragon.feed
+    when 'walk'
+      dragon.walk
+    when 'rock'
+      dragon.rock
+    when 'toss'
+      dragon.toss
+    when 'put to bed'
+      dragon.putToBed
+    when 'quit'
+      break
+    else
+      prompt 'Not sure what you meant there. Let\'s try a little snack and a nice walkie.'
+      dragon.feed
+      dragon.walk
+    end
+  end
+
+  prompt 'Oh, dear. How about a new dragon, then? (y or n)'
+  new_dragon = gets.chomp.downcase
+end
+
+prompt 'Had enough for one game? See you next time!!'
