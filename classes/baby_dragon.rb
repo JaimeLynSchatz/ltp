@@ -121,7 +121,7 @@ while new_dragon.start_with?('y')
       prompt 'That was a nice walk. What now?'
     else
       prompt 'I didn\'t catch that. Here\'s what you can do with your dragon:'
-      prompt 'feed  |  walk  |  rock  |  toss  |  put to bed'
+      prompt 'feed  ||  walk  ||  rock  ||  toss  ||  put to bed'
     end
 
     choice = gets.chomp.downcase
