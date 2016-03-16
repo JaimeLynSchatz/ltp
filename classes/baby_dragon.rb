@@ -1,74 +1,68 @@
+# Dragon class will create a baby dragon instance with name
+# set to initialization parameter
 class Dragon
-
-  def initialize name
+  def initialize(name)
     @name = name
     @asleep = false
-    @stuffInBelly = 10  # He's full.
-    @stuffInIntestine = 0  # He doesn't need to go.
+    @stuff_in_belly = 10 # He's full.
+    @stuff_in_intestine = 0 # He doesn't need to go.
 
     puts @name + ' is born.'
   end
 
   def feed
     puts 'You feed ' + @name + '.'
-    @stuffInBelly = 10
-    passageOfTime
+    @stuff_in_belly = 10
+    passage_of_time
   end
 
   def walk
     puts 'You walk ' + @name + '.'
-    @stuffInIntestine = 0
-    passageOfTime
+    @stuff_in_intestine = 0
+    passage_of_time
   end
 
-  def putToBed
+  def put_to_bed
     puts 'You put ' + @name + ' to bed.'
     @asleep = true
     3.times do
-      if @asleep
-        passageOfTime
-      end
-      if @asleep
-        puts @name + ' snores, filling the room with smoke.'
-      end
+      passage_of_time
+      break unless @asleep
+      puts @name + ' snores, filling the room with smoke.'
     end
-    if @asleep
-      @asleep = false
-      puts @name + ' wakes up slowly.'
-    end
+    @asleep = false
+    puts @name + ' wakes up slowly.'
   end
 
   def toss
     puts 'You toss ' + @name + ' up into the air.'
     puts 'He giggles, which singes your eyebrows.'
-    passageOfTime
+    passage_of_time
   end
 
   def rock
     puts 'You rock ' + @name + 'gently.'
     @asleep = true
     puts 'He briefly dozes off...'
-    passageOfTime
-    if @alseep
-      @asleep = false
-      puts '...but wakes when you stop.'
-    end
+    passage_of_time
+    @asleep = false
+    puts '...but wakes when you stop.'
   end
 
   private
 
   def hungry?
-    @stuffInBelly <= 2
+    @stuff_in_belly <= 2
   end
 
   def poopy?
-    @stuffInIntestine >= 8
+    @stuff_in_intestine >= 8
   end
 
-  def passageOfTime
-    if @stuffInBelly > 0
-      @stuffInBelly -= 1
-      @stuffInIntestine += 1
+  def passage_of_time
+    if @stuff_in_belly
+      @stuff_in_belly -= 1
+      @stuff_in_intestine += 1
     else
       if @asleep
         @asleep = false
@@ -78,8 +72,8 @@ class Dragon
       exit
     end
 
-    if @stuffInIntestine >= 10
-      @stuffInIntestine = 0
+    if @stuff_in_intestine >= 10
+      @stuff_in_intestine = 0
       puts 'Whoops! ' + @name + ' had an accident...'
     end
 
@@ -99,11 +93,38 @@ class Dragon
       puts @name + ' does the potty dance...'
     end
   end
-
 end
 
-def prompt msg
+def prompt(msg)
   puts "=> #{msg}"
+end
+
+def pet_care(choice)
+  case choice
+    when 'feed'
+      feed
+    when 'walk'
+      walk
+    when 'rock'
+      rock
+    when 'toss'
+      toss
+    when 'put to bed'
+      put_to_bed
+    when 'quit'
+      quit_game
+    else
+      prompt 'Not sure what you meant there.'
+      prompt 'Let\'s try a little snack and a nice walkie.'
+      feed
+      walk
+  end
+end
+
+def quit_game
+  prompt 'Oh, dear. How about a new dragon, then? (y or n)'
+  new_dragon = gets.chomp.downcase
+  prompt 'Had enough for one game? See you next time!!'
 end
 
 prompt 'Would you like a new pet dragon? (y or n)'
@@ -114,7 +135,8 @@ while new_dragon.start_with?('y')
   dragon = Dragon.new dragon_name
 
   loop do
-    prompt "#{dragon_name} might like a little fresh air. To walk your dragon, type walk."
+    prompt "#{dragon_name} might like a little fresh air."
+    prompt 'To walk your dragon, type walk.'
     choice = gets.chomp.downcase
     if choice == 'walk'
       dragon.walk
@@ -125,28 +147,8 @@ while new_dragon.start_with?('y')
     end
 
     choice = gets.chomp.downcase
-    case choice
-    when 'feed'
-      dragon.feed
-    when 'walk'
-      dragon.walk
-    when 'rock'
-      dragon.rock
-    when 'toss'
-      dragon.toss
-    when 'put to bed'
-      dragon.putToBed
-    when 'quit'
-      break
-    else
-      prompt 'Not sure what you meant there. Let\'s try a little snack and a nice walkie.'
-      dragon.feed
-      dragon.walk
-    end
-  end
-
-  prompt 'Oh, dear. How about a new dragon, then? (y or n)'
-  new_dragon = gets.chomp.downcase
+    dragon.send(pet_care(choice))
+  end  
 end
 
-prompt 'Had enough for one game? See you next time!!'
+

@@ -3,30 +3,30 @@ class Dragon
   def initialize name
     @name = name
     @asleep = false
-    @stuffInBelly = 10  # He's full.
-    @stuffInIntestine = 0  # He doesn't need to go.
+    @stuff_in_belly = 10  # He's full.
+    @stuff_in_intestine = 0  # He doesn't need to go.
 
     puts @name + ' is born.'
   end
 
   def feed
     puts 'You feed ' + @name + '.'
-    @stuffInBelly = 10
-    passageOfTime
+    @stuff_in_belly = 10
+    passage_of_time
   end
 
   def walk
     puts 'You walk ' + @name + '.'
-    @stuffInIntestine = 0
-    passageOfTime
+    @stuff_in_intestine = 0
+    passage_of_time
   end
 
-  def putToBed
+  def put_to_bed
     puts 'You put ' + @name + ' to bed.'
     @asleep = true
     3.times do
       if @asleep
-        passageOfTime
+        passage_of_time
       end
       if @asleep
         puts @name + ' snores, filling the room with smoke.'
@@ -41,14 +41,14 @@ class Dragon
   def toss
     puts 'You toss ' + @name + ' up into the air.'
     puts 'He giggles, which singes your eyebrows.'
-    passageOfTime
+    passage_of_time
   end
 
   def rock
     puts 'You rock ' + @name + 'gently.'
     @asleep = true
     puts 'He briefly dozes off...'
-    passageOfTime
+    passage_of_time
     if @alseep
       @asleep = false
       puts '...but wakes when you stop.'
@@ -58,17 +58,17 @@ class Dragon
   private
 
   def hungry?
-    @stuffInBelly <= 2
+    @stuff_in_belly <= 2
   end
 
   def poopy?
-    @stuffInIntestine >= 8
+    @stuff_in_intestine >= 8
   end
 
-  def passageOfTime
-    if @stuffInBelly > 0
-      @stuffInBelly -= 1
-      @stuffInIntestine += 1
+  def passage_of_time
+    if @stuff_in_belly > 0
+      @stuff_in_belly -= 1
+      @stuff_in_intestine += 1
     else
       if @asleep
         @asleep = false
@@ -78,8 +78,8 @@ class Dragon
       exit
     end
 
-    if @stuffInIntestine >= 10
-      @stuffInIntestine = 0
+    if @stuff_in_intestine >= 10
+      @stuff_in_intestine = 0
       puts 'Whoops! ' + @name + ' had an accident...'
     end
 
@@ -106,9 +106,9 @@ pet = Dragon.new 'Norbert'
 pet.feed
 pet.toss
 pet.walk
-pet.putToBed
+pet.put_to_bed
 pet.rock
-pet.putToBed
-pet.putToBed
-pet.putToBed
-pet.putToBed
+pet.put_to_bed
+pet.put_to_bed
+pet.put_to_bed
+pet.put_to_bed
