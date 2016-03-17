@@ -99,29 +99,34 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
+def new_dragon
+    prompt 'What\'s your dragon\'s name?'
+    dragon_name = gets.chomp
+    Dragon.new dragon_name
+end
+
+def adopt
+  prompt 'Ah, you\'d like to adopt a new dragon?'
+  new_dragon
+end
+
 def quit
-  prompt 'Oh, dear. How about a new dragon, then? (y or n)'
-  new_dragon = gets.chomp.downcase
   prompt 'Had enough for one game? See you next time!!'
+  exit
 end
 
 PET_CARE = %w(feed walk rock toss bed quit).freeze
 
-prompt 'Would you like a new pet dragon? (y or n)'
-new_dragon = gets.chomp.downcase
-while new_dragon.start_with?('y') || choice != 'quit'
-  prompt 'What\'s your dragon\'s name?'
-  dragon_name = gets.chomp
-  dragon = Dragon.new dragon_name
+dragon = new_dragon
 
-  prompt 'Here\'s what you can do with your dragon:'
-  prompt 'feed  ||  walk  ||  rock  ||  toss  ||  put to bed'
-  prompt "Just so you don't get eaten, if I don't understand,"
-  prompt "Let's just say you fed #{dragon_name}"
+prompt 'Here\'s what you can do with your dragon:'
+prompt 'feed  ||  walk  ||  rock  ||  toss  ||  bed || adopt\n'
+prompt "Just so you don't get eaten, if I don't understand,"
+prompt "Let's just say you fed #{dragon_name}\n"
 
-  loop do
-    prompt "What would you like to do with #{dragon_name} now?"
-    choice = gets.chomp.downcase
-    dragon.send(PET_CARE.include?(choice) ? choice : 'feed')
-  end
+choice = ''
+while choice != 'quit'
+  prompt "What would you like to do with #{dragon_name} now?"
+  choice = gets.chomp.downcase
+  dragon.send(PET_CARE.include?(choice) ? choice : 'feed')
 end
