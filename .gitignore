@@ -10,6 +10,9 @@
 /test/version_tmp/
 /tmp/
 
+## rdoc
+/classes/doc/
+
 ## Specific to RubyMotion:
 .dat*
 .repl_history

@@ -147,7 +147,10 @@ while new_dragon.start_with?('y')
     end
 
     choice = gets.chomp.downcase
-    dragon.send(pet_care(choice))
+    puts choice
+    dragon.send(choice)
+
+    # dragon.send(pet_care(choice))
   end  
 end
 
