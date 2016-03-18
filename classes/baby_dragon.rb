@@ -1,6 +1,8 @@
 # Dragon class will create a baby dragon instance with name
 # set to initialization parameter
 class Dragon
+  attr_accessor :name
+  
   def initialize(name)
     @name = name
     @asleep = false
@@ -10,9 +12,9 @@ class Dragon
     puts @name + ' is born.'
   end
 
-  def name
-    @name
-  end
+  # def name
+  #   @name
+  # end
 
   def feed
     puts 'You feed ' + @name + '.'
