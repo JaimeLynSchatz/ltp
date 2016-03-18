@@ -10,6 +10,10 @@ class Dragon
     puts @name + ' is born.'
   end
 
+  def name
+    @name
+  end
+
   def feed
     puts 'You feed ' + @name + '.'
     @stuff_in_belly = 10
@@ -100,9 +104,10 @@ def prompt(msg)
 end
 
 def new_dragon
-    prompt 'What\'s your dragon\'s name?'
-    dragon_name = gets.chomp
-    Dragon.new dragon_name
+  prompt 'What\'s your dragon\'s name?'
+  dragon_name = gets.chomp
+  dragon = Dragon.new dragon_name
+  dragon
 end
 
 def adopt
@@ -122,11 +127,13 @@ dragon = new_dragon
 prompt 'Here\'s what you can do with your dragon:'
 prompt 'feed  ||  walk  ||  rock  ||  toss  ||  bed || adopt\n'
 prompt "Just so you don't get eaten, if I don't understand,"
-prompt "Let's just say you fed #{dragon_name}\n"
+p dragon
+p dragon.name
+# prompt "Let's just say you fed #{dragon.name}\n"
 
 choice = ''
 while choice != 'quit'
-  prompt "What would you like to do with #{dragon_name} now?"
+  prompt "What would you like to do with #{dragon.name} now?"
   choice = gets.chomp.downcase
   dragon.send(PET_CARE.include?(choice) ? choice : 'feed')
 end
