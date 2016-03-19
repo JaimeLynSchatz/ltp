@@ -70,6 +70,16 @@ class Dragon
     @stuff_in_intestine += 1
   end
 
+  def accident
+    @stuff_in_intestine = 0
+    prompt "Ooops, #{name} had an accident!"
+  end
+
+  def sudden_wake
+    @asleep = false
+    puts "#{name} wakes up suddenly!"
+  end
+
   def passage_of_time
     digest if @stuff_in_belly
     if hungry? && @asleep
@@ -77,17 +87,10 @@ class Dragon
       exit
     end
 
-    if @stuff_in_intestine >= 10
-      @stuff_in_intestine = 0
-      puts 'Whoops! ' + @name + ' had an accident...'
-    end
+    accident if @stuff_in_intestine >= 10
 
-    if poopy? && @asleep
-      @asleep = false
-      puts 'He wakes up suddenly!'
-    elsif poopy?
-      puts @name + ' does the potty dance...'
-    end
+    sudden_wake if poopy? && @asleep
+    puts @name + ' does the potty dance...' if poopy?
   end
 end
 
