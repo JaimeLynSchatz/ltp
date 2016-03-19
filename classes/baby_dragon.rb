@@ -2,7 +2,7 @@
 # set to initialization parameter
 class Dragon
   attr_accessor :name
-  
+
   def initialize(name)
     @name = name
     @asleep = false
@@ -65,16 +65,15 @@ class Dragon
     @stuff_in_intestine >= 8
   end
 
+  def digest
+    @stuff_in_belly -= 1
+    @stuff_in_intestine += 1
+  end
+
   def passage_of_time
-    if @stuff_in_belly
-      @stuff_in_belly -= 1
-      @stuff_in_intestine += 1
-    else
-      if @asleep
-        @asleep = false
-        puts 'He wakes up suddenly!'
-      end
-      puts @name + ' is starving! In desperation, he ate YOU!'
+    digest if @stuff_in_belly
+    if hungry? && @asleep
+      puts "#{@name} wakes up suddenly and is starving. He ate you!"
       exit
     end
 
@@ -83,19 +82,10 @@ class Dragon
       puts 'Whoops! ' + @name + ' had an accident...'
     end
 
-    if hungry?
-      if @asleep
-        @asleep = false
-        puts 'He wakes up suddenly!'
-      end
-      puts @name + '\'s stomack grumbles...'
-    end
-
-    if poopy?
-      if @asleep
-        @asleep = false
-        puts 'He wakes up suddenly!'
-      end
+    if poopy? && @asleep
+      @asleep = false
+      puts 'He wakes up suddenly!'
+    elsif poopy?
       puts @name + ' does the potty dance...'
     end
   end
